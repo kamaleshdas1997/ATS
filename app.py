@@ -19,9 +19,7 @@ def get_llm_response(input_prompt):
             stream=False)
         end_time = time.time()  # Record the end time
         response_time = end_time - start_time  # Calculate response time
-        st.write(llmResponse)
-        print(llmResponse)
-        return llmResponse.response
+        return llmResponse.response, response_time
     except Exception as e:
         print(f"Error calling Ollama: {e}")
 
@@ -65,7 +63,7 @@ if submit:
         """
         
         # Get LLM response and response time
-        response = get_llm_response(input_prompt)
+        response, response_time = get_llm_response(input_prompt)
         
         if response is None:
             st.error("Error: Received no response from the LLM.")
@@ -73,10 +71,10 @@ if submit:
             # Debugging: Print the raw response to inspect it
             st.write("Raw Response from Model:")
             st.write(response)  # This will display the raw response in the app
-
+            
             # Display the response time
-            # st.write(f"Response Time: {response_time:.2f} seconds")
-
+            st.write(f"Response Time: {response_time:.2f} seconds")
+            
             # Try to parse the response as JSON
             try:
                 response_json = json.loads(response)
