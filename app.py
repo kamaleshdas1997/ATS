@@ -19,6 +19,7 @@ def get_llm_response(input_prompt):
             stream=False)
         end_time = time.time()  # Record the end time
         response_time = end_time - start_time  # Calculate response time
+        st.write(llmResponse)
         print(llmResponse)
         return llmResponse.response
     except Exception as e:
