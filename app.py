@@ -85,3 +85,26 @@ if submit:
         st.error("Please paste a job description.")
     else:
         st.error("Please upload a PDF resume.")
+
+
+
+
+# Add "Developed by" in bottom corner
+st.markdown("""
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #555;
+        }
+    </style>
+    <div class="footer">
+        Developed by Kamalesh
+    </div>
+""", unsafe_allow_html=True)
