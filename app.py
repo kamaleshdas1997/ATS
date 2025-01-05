@@ -64,8 +64,8 @@ if submit:
         response, response_time = get_llm_response(input_prompt)
         
         # Debugging: Print the raw response to inspect it
-        # st.write("Raw Response from Model:")
-        # st.write(response)  # This will display the raw response in the app
+        st.write("Raw Response from Model:")
+        st.write(response)  # This will display the raw response in the app
         
         # Display the response time
         st.write(f"Response Time: {response_time:.2f} seconds")
