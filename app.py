@@ -12,14 +12,17 @@ load_dotenv()
 # Get LLM Response
 def get_llm_response(input_prompt):
     start_time = time.time()  # Record the start time
-    llmResponse = ollama.generate(
-        model='llama3',
-        prompt=input_prompt,
-        stream=False
-    )
-    end_time = time.time()  # Record the end time
-    response_time = end_time - start_time  # Calculate response time
-    return llmResponse.response, response_time
+    try:
+        llmResponse = ollama.generate(
+            model='llama3',
+            prompt=input_prompt,
+            stream=False)
+        end_time = time.time()  # Record the end time
+        response_time = end_time - start_time  # Calculate response time
+        print(llmResponse)
+        return llmResponse.response, response_time
+    except Exception as e:
+        print(f"Error calling Ollama: {e}")
 
 # PDF to Text Parser
 def input_pdf_text(uploaded_file):
