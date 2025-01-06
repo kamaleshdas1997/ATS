@@ -96,7 +96,7 @@ if submit:
                 st.write(f"**JD Match**: {response_json.get('JD Match', 'N/A')}")
                 st.write(f"**Rating**: {response_json.get('Rating', '0')}")
                 st.write(f"**Response**: {response_json.get('AI response', 'N/A')}")
-                # st.write(f"**Missing Keywords**: {', '.join(response_json.get('MissingKeywords', []))}")
+                st.write(f"**Missing Keywords**: {', '.join(response_json.get('MissingKeywords', []))}")
                 st.write(f"**Profile Summary**: {response_json.get('Profile Summary', 'N/A')}")
             except json.JSONDecodeError:
                 st.error("Error: Unable to parse the response from the model.")
