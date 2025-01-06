@@ -53,34 +53,50 @@ if submit:
         and big data engineer. Your task is to evaluate the resume based on the given job description.
         You must consider that the job market is very competitive, and you should provide 
         the best assistance for improving the resumes. Assign the percentage match based 
-        on the JD and list the missing keywords with high accuracy.
+        on the JD, assign rating/10 based on JD, list the missing keywords with high accuracy and give an AI response wheather we shoukd hire or not, with proper reason.
         
         Resume: {resume_text}
         Description: {jd}
         
         I want the response in one single string having the structure:
-        {{"JD Match":"%","MissingKeywords":[],"Profile Summary":""}}
+        {{"JD Match":"%","Rating":"0/10","AI response":"","MissingKeywords":[],"Profile Summary":""}}
         """
         
         # Get LLM response and response time
         response, response_time = get_llm_response(input_prompt)
-        
+        # Find the starting index of the JSON part (the first curly brace)
+        json_start_index = response.find("{")
+
+        # Find the ending index of the JSON part (the last closing curly brace)
+        json_end_index = response.rfind("}")
+
+        # Extract the JSON portion of the string
+        json_str = response[json_start_index:json_end_index + 1].strip()
+
+        # Extract the note (everything after the JSON part)
+        note_start_index = json_end_index + 1  # After the last closing brace of JSON
+        note_str = response[note_start_index:].strip()
+
+        print(json_str, note_str)
+
         if response is None:
             st.error("Error: Received no response from the LLM.")
         else:
             # Debugging: Print the raw response to inspect it
-            st.write("Raw Response from Model:")
-            st.write(response)  # This will display the raw response in the app
+            # st.write("Raw Response from Model:")
+            # st.write(response)  # This will display the raw response in the app
             
             # Display the response time
             st.write(f"Response Time: {response_time:.2f} seconds")
             
             # Try to parse the response as JSON
             try:
-                response_json = json.loads(response)
+                response_json = json.loads(json_str)
                 st.subheader("ATS Evaluation")
                 st.write(f"**JD Match**: {response_json.get('JD Match', 'N/A')}")
-                st.write(f"**Missing Keywords**: {', '.join(response_json.get('MissingKeywords', []))}")
+                st.write(f"**Rating**: {response_json.get('Rating', '0')}")
+                st.write(f"**Response**: {response_json.get('AI response', 'N/A')}")
+                # st.write(f"**Missing Keywords**: {', '.join(response_json.get('MissingKeywords', []))}")
                 st.write(f"**Profile Summary**: {response_json.get('Profile Summary', 'N/A')}")
             except json.JSONDecodeError:
                 st.error("Error: Unable to parse the response from the model.")
